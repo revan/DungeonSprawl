@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.TextView;
 
@@ -75,6 +76,15 @@ public class GameActivity extends Activity {
                 });
             }
         });
+    }
+
+    /**
+     * Approximates fitting room size for screen resolution.
+     */
+    public int calculateRoomSize() {
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return (dm.widthPixels + dm.heightPixels) / 70;
     }
 
     public void hideScreen(final String message) {
