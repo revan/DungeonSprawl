@@ -14,8 +14,15 @@ public class Room {
     private Cell[][] cells;
     private List<Entity> entities;
     private GameManager game;
+    private int width;
+    private int height;
+
+    private static int ROCK_MAX = 40;
 
     public Room(int width, int height, GameManager game) {
+        this.width = width;
+        this.height = height;
+
         entities = new LinkedList<Entity>();
 
         cells = new Cell[width][height];
@@ -27,13 +34,18 @@ public class Room {
 
         this.game = game;
 
-        Point playerStart = new Point(width/2, height/2);
+        Point playerStart = Player.chooseSpot(this);
         player = new Player(this, playerStart);
         addEntity(player, playerStart);
 
         //TODO: initialize entities
-        Point roomStart = new Point(2,2);
-        addEntity(new Door(this, roomStart), roomStart);
+        Point doorStart = Door.chooseSpot(this);
+        addEntity(new Door(this, doorStart), doorStart);
+
+        for(int i=0; i < Math.random() * ROCK_MAX; i++) {
+            Point rockPoint = Rock.chooseSpot(this);
+            addEntity(new Rock(this, rockPoint), rockPoint);
+        }
     }
 
     public void addEntity(Entity entity, Point point) {
@@ -70,6 +82,14 @@ public class Room {
 
     public GameManager getGameManager() {
         return game;
+    }
+
+    public int getWidth(){
+        return width;
+    }
+
+    public int getHeight(){
+        return height;
     }
 
     public String toString() {

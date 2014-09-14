@@ -11,7 +11,7 @@ public class GameManager {
     private GameActivity activity;
 
     public GameManager(WebSocket webSocket, GameActivity activity) {
-        this.room = generateRoom(20, 10);
+        this.room = generateRoom(30, 30);
         this.webSocket = webSocket;
         this.activity = activity;
     }
@@ -34,6 +34,6 @@ public class GameManager {
         //TODO use actual score
         webSocket.send("" + 69);
         activity.dimScreen();
-        this.room = generateRoom(20, 10);
+        this.room = generateRoom(30, 30);
     }
 }

@@ -8,7 +8,6 @@ import android.graphics.Point;
 public class Door extends Entity implements CanOverlap{
     public Door(Room room, Point point){
         super(room, point);
-        occupiesSpace = true;
     }
 
     @Override
