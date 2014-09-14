@@ -1,14 +1,14 @@
 var WebSocketServer = require('ws').Server, wss = new WebSocketServer({port: 8081});
 
 	wss.clientIndex = 0;
-	wss.selectNewClient = function(){
+	wss.selectNewClient = function(gold){
 		this.clientIndex++;
 		if (this.clientIndex >= this.clients.length) {
 			this.clientIndex = 0;
 		}
 
 		// TODO Notify new client.
-		//this.clients[clientIndex].send(
+		this.clients[this.clientIndex].send('gold'+gold);
 	}
 
 wss.on('connection', function(ws) {
@@ -44,7 +44,7 @@ wss.on('connection', function(ws) {
 				process.stdin.pause();
 				process.exit();
 			} else {
-				wss.selectNewClient();
+				wss.selectNewClient(gold);
 			}
 		} else {
 			console.log('Message out of turn -- ignored');

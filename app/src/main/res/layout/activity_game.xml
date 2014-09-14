@@ -5,6 +5,15 @@
     tools:context=".GameActivity">
 
     <TextView
+        android:id="@+id/goldView"
+        android:text="[gold view]"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:padding="10dp"/>
+
+    <TextView
         android:id="@+id/gameBoard"
         android:text="[game board]"
         android:layout_width="wrap_content"

@@ -25,6 +25,8 @@ public class GameActivity extends Activity {
         final TextView gameBoard = (TextView) findViewById(R.id.gameBoard);
         gameBoard.setTypeface(Typeface.MONOSPACE);
 
+        final TextView goldView = (TextView) findViewById(R.id.goldView);
+
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
 
@@ -37,11 +39,19 @@ public class GameActivity extends Activity {
                     return;
                 }
 
-                //TODO: construct new room as a callback
                 final GameManager game = new GameManager(webSocket, self);
 
-                //TODO: send unique identifier
-                webSocket.send("android send");
+                webSocket.send("0");
+
+                final Handler uiUpdater = new Handler(getApplicationContext().getMainLooper());
+                final Runnable uiUpdate = new Runnable() {
+                    @Override
+                    public void run() {
+                        gameBoard.setText(game.room.toString());
+                        goldView.setText(game.getGold() + " gold");
+                    }
+                };
+                uiUpdater.post(uiUpdate);
 
                 webSocket.setStringCallback(new WebSocket.StringCallback() {
                     @Override
@@ -49,17 +59,12 @@ public class GameActivity extends Activity {
                         System.out.println("I got a string: " + s);
 
                         //TODO switch to JSON instead of raw keys
-                        game.setPlayerAction(s);
+                        if (!game.maybeSetGold(s)) {
+                            game.setPlayerAction(s);
+                            game.turn();
+                        }
 
-                        System.out.println(game.room.toString());
-
-                        new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
-                            @Override
-                            public void run() {
-                                gameBoard.setText(game.room.toString());
-                            }
-                        });
-                        game.turn();
+                        uiUpdater.post(uiUpdate);
                     }
                 });
             }

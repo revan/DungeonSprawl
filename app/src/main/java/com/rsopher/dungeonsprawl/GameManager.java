@@ -9,11 +9,13 @@ public class GameManager {
     public Room room;
     public WebSocket webSocket;
     private GameActivity activity;
+    private int gold;
 
     public GameManager(WebSocket webSocket, GameActivity activity) {
         this.room = generateRoom(30, 30);
         this.webSocket = webSocket;
         this.activity = activity;
+        gold = 0;
     }
 
     public Room generateRoom(int w, int h) {
@@ -30,16 +32,35 @@ public class GameManager {
         room.player.setAction(key);
     }
 
+    /**
+     * If this is the first message of a room, it will be in the form
+     * of "goldXX..." where "XX..." is the gold total. Else, it's WASD.
+     * TODO: replace this with less disgusting way (JSON)
+     */
+    public boolean maybeSetGold(String string) {
+        if(string.startsWith("gold")) {
+            gold = Integer.parseInt(string.replace("gold", ""));
+            return true;
+        }
+        return false;
+    }
+
+    public void addGold(int gold) {
+        this.gold += gold;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
     public void notifyRoomChange() {
-        //TODO use actual score
-        webSocket.send("" + 69);
+        webSocket.send("" + gold);
         activity.dimScreen();
         this.room = generateRoom(30, 30);
     }
 
     public void notifyGameOver() {
-        //TODO use actual score
-        webSocket.send("" + -69);
+        webSocket.send("" + -1 * gold);
         activity.dimScreen();
     }
 }

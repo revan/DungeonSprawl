@@ -6,8 +6,8 @@ import android.graphics.Point;
  * Created by revan on 9/14/14.
  */
 public class Zombie extends LiveEntity {
-    private static int MINIMUM_PLAYER_DISTANCE = 5;
-    private static int SIGHT_DISTANCE = 5;
+    private static final int MINIMUM_PLAYER_DISTANCE = 5;
+    private static final int SIGHT_DISTANCE = 5;
 
     public Zombie(Room room, Point point) {
         super(room, point);

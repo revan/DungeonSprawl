@@ -19,6 +19,7 @@ public class Room {
 
     private static int ROCK_MAX = 100;
     private static int ZOMBIE_MAX = 10;
+    private static int GOLD_MAX = 5;
 
     public Room(int width, int height, GameManager game) {
         this.width = width;
@@ -39,7 +40,6 @@ public class Room {
         player = new Player(this, playerStart);
         addEntity(player, playerStart);
 
-        //TODO: initialize entities
         Point doorStart = Door.chooseSpot(this);
         addEntity(new Door(this, doorStart), doorStart);
 
@@ -51,6 +51,11 @@ public class Room {
         for(int i=0; i < Math.random() * ZOMBIE_MAX; i++) {
             Point zombiePoint = Zombie.chooseSpot(this);
             addEntity(new Zombie(this, zombiePoint), zombiePoint);
+        }
+
+        for(int i=0; i < Math.random() * GOLD_MAX; i++) {
+            Point goldPoint = Gold.chooseSpot(this);
+            addEntity(new Gold(this, goldPoint), goldPoint);
         }
     }
 
