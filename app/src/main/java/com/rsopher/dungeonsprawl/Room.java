@@ -17,9 +17,11 @@ public class Room {
     private int width;
     private int height;
 
-    private static int ROCK_MAX = 100;
-    private static int ZOMBIE_MAX = 10;
-    private static int GOLD_MAX = 5;
+    private static final int VISIBILITY_DISTANCE = 15;
+
+    private static final int ROCK_MAX = 100;
+    private static final int ZOMBIE_MAX = 10;
+    private static final int GOLD_MAX = 5;
 
     public Room(int width, int height, GameManager game) {
         this.width = width;
@@ -43,7 +45,7 @@ public class Room {
         Point doorStart = Door.chooseSpot(this);
         addEntity(new Door(this, doorStart), doorStart);
 
-        for(int i=0; i < Math.random() * ROCK_MAX; i++) {
+        for(int i=0; i < 40 + Math.random() * ROCK_MAX; i++) {
             Point rockPoint = Rock.chooseSpot(this);
             addEntity(new Rock(this, rockPoint), rockPoint);
         }
@@ -103,11 +105,19 @@ public class Room {
         return height;
     }
 
+    /**
+     * @return string representation of room, with fog.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (int w = 0; w < cells.length; w++) {
             for (int h = 0; h < cells[w].length; h++) {
-                sb.append(cells[w][h].toChar());
+                if (Math.sqrt(Math.pow(Math.abs(w - player.point.x), 2) +
+                        Math.pow(Math.abs(h - player.point.y), 2)) < VISIBILITY_DISTANCE) {
+                    sb.append(cells[w][h].toChar());
+                } else {
+                    sb.append('?');
+                }
             }
             sb.append('\n');
         }

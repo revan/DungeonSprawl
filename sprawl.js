@@ -35,7 +35,7 @@ wss.on('connection', function(ws) {
 	// We get messaged total gold on room end.
 	// Negative -> game over
 	ws.on('message', function(message) {
-		console.log('received: %s', message);
+		//console.log('received: %s', message);
 		if (ws === wss.clients[wss.clientIndex]) {
 			var gold = parseInt(message);
 
