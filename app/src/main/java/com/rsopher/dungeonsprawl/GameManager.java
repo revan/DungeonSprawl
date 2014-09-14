@@ -36,4 +36,10 @@ public class GameManager {
         activity.dimScreen();
         this.room = generateRoom(30, 30);
     }
+
+    public void notifyGameOver() {
+        //TODO use actual score
+        webSocket.send("" + -69);
+        activity.dimScreen();
+    }
 }

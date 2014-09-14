@@ -5,7 +5,7 @@ import android.graphics.Point;
 /**
  * Created by revan on 9/13/14.
  */
-public class Player extends LiveEntity {
+public class Player extends LiveEntity implements CanOverlap {
     private String key;
 
     public Player(Room room, Point point) {
@@ -37,5 +37,13 @@ public class Player extends LiveEntity {
 
     public void setAction(String key) {
         this.key = key;
+    }
+
+    /**
+     * When overlapped by Zombie, game over.
+     */
+    @Override
+    public void onOverlap() {
+        room.getGameManager().notifyGameOver();
     }
 }

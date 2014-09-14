@@ -17,7 +17,8 @@ public class Room {
     private int width;
     private int height;
 
-    private static int ROCK_MAX = 40;
+    private static int ROCK_MAX = 100;
+    private static int ZOMBIE_MAX = 10;
 
     public Room(int width, int height, GameManager game) {
         this.width = width;
@@ -45,6 +46,11 @@ public class Room {
         for(int i=0; i < Math.random() * ROCK_MAX; i++) {
             Point rockPoint = Rock.chooseSpot(this);
             addEntity(new Rock(this, rockPoint), rockPoint);
+        }
+
+        for(int i=0; i < Math.random() * ZOMBIE_MAX; i++) {
+            Point zombiePoint = Zombie.chooseSpot(this);
+            addEntity(new Zombie(this, zombiePoint), zombiePoint);
         }
     }
 

@@ -24,7 +24,7 @@ wss.on('connection', function(ws) {
 		if (key && 'wasd'.indexOf(key.name) > -1) {
 			// We have one listener per client, so ignore others
 			if (ws === wss.clients[wss.clientIndex]) {
-				console.log('clientIndex: ' + wss.clientIndex);
+				//console.log('clientIndex: ' + wss.clientIndex);
 				ws.send(key.name);
 			}
 		}
