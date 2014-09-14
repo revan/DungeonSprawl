@@ -20,16 +20,14 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/gameBoardHider"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentBottom="true"
         android:visibility="invisible"
-        android:alpha="1"
-        android:src="#000000" />
+        android:background="#000000"
+        android:text=""
+        android:gravity="center"
+        android:textColor="#b20000"/>
 
 </RelativeLayout>

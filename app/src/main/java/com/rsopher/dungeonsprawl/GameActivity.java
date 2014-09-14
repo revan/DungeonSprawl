@@ -15,10 +15,14 @@ import com.koushikdutta.async.http.WebSocket;
  * Created by revan on 9/13/14.
  */
 public class GameActivity extends Activity {
+    private TextView gameBoardHider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        getActionBar().hide();
 
         final GameActivity self = this;
 
@@ -26,6 +30,8 @@ public class GameActivity extends Activity {
         gameBoard.setTypeface(Typeface.MONOSPACE);
 
         final TextView goldView = (TextView) findViewById(R.id.goldView);
+
+        gameBoardHider = (TextView) findViewById(R.id.gameBoardHider);
 
         Intent intent = getIntent();
         String address = intent.getStringExtra("address");
@@ -41,7 +47,7 @@ public class GameActivity extends Activity {
 
                 final GameManager game = new GameManager(webSocket, self);
 
-                webSocket.send("0");
+                webSocket.send("1");
 
                 final Handler uiUpdater = new Handler(getApplicationContext().getMainLooper());
                 final Runnable uiUpdate = new Runnable() {
@@ -71,19 +77,21 @@ public class GameActivity extends Activity {
         });
     }
 
-    public void dimScreen() {
+    public void hideScreen(final String message) {
         new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                findViewById(R.id.gameBoardHider).setVisibility(View.VISIBLE);
+                gameBoardHider.setVisibility(View.VISIBLE);
+                gameBoardHider.setText(message);
             }
         });
     }
-    public void unDimScreen() {
+    public void unHideScreen() {
         new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                findViewById(R.id.gameBoardHider).setVisibility(View.INVISIBLE);
+                gameBoardHider.setVisibility(View.INVISIBLE);
+                gameBoardHider.setText("");
             }
         });
     }

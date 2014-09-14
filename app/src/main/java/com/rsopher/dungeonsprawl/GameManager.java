@@ -15,7 +15,8 @@ public class GameManager {
         this.room = generateRoom(30, 30);
         this.webSocket = webSocket;
         this.activity = activity;
-        gold = 0;
+        gold = 1;
+        activity.hideScreen("Connected to host!");
     }
 
     public Room generateRoom(int w, int h) {
@@ -24,7 +25,7 @@ public class GameManager {
     }
 
     public void turn() {
-        activity.unDimScreen();
+        activity.unHideScreen();
         room.turn();
     }
 
@@ -55,12 +56,12 @@ public class GameManager {
 
     public void notifyRoomChange() {
         webSocket.send("" + gold);
-        activity.dimScreen();
+        activity.hideScreen("You made it through the room.");
         this.room = generateRoom(30, 30);
     }
 
     public void notifyGameOver() {
         webSocket.send("" + -1 * gold);
-        activity.dimScreen();
+        activity.hideScreen("You Died!\nYou made " + getGold() + " gold.");
     }
 }
