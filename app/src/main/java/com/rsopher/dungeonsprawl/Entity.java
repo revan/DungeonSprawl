@@ -8,6 +8,7 @@ import android.graphics.Point;
 public abstract class Entity {
     protected Room room;
     public Point point;
+    protected boolean occupiesSpace = true;
 
     public Entity(Room room, Point point){
         this.room = room;

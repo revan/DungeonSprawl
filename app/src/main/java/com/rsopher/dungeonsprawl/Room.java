@@ -13,8 +13,9 @@ public class Room {
     public Player player;
     private Cell[][] cells;
     private List<Entity> entities;
+    private GameManager game;
 
-    public Room(int width, int height) {
+    public Room(int width, int height, GameManager game) {
         entities = new LinkedList<Entity>();
 
         cells = new Cell[width][height];
@@ -24,11 +25,15 @@ public class Room {
             }
         }
 
+        this.game = game;
+
         Point playerStart = new Point(width/2, height/2);
         player = new Player(this, playerStart);
         addEntity(player, playerStart);
 
         //TODO: initialize entities
+        Point roomStart = new Point(2,2);
+        addEntity(new Door(this, roomStart), roomStart);
     }
 
     public void addEntity(Entity entity, Point point) {
@@ -61,6 +66,10 @@ public class Room {
             return cells[point.x][point.y];
         }
         return null;
+    }
+
+    public GameManager getGameManager() {
+        return game;
     }
 
     public String toString() {

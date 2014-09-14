@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.TextView;
 
 import com.koushikdutta.async.http.AsyncHttpClient;
@@ -18,6 +19,8 @@ public class GameActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        final GameActivity self = this;
 
         final TextView gameBoard = (TextView) findViewById(R.id.gameBoard);
         gameBoard.setTypeface(Typeface.MONOSPACE);
@@ -35,7 +38,7 @@ public class GameActivity extends Activity {
                 }
 
                 //TODO: construct new room as a callback
-                final GameManager game = new GameManager();
+                final GameManager game = new GameManager(webSocket, self);
 
                 //TODO: send unique identifier
                 webSocket.send("android send");
@@ -50,7 +53,7 @@ public class GameActivity extends Activity {
 
                         System.out.println(game.room.toString());
 
-                        new Handler(getApplicationContext().getMainLooper()).post(new Runnable(){
+                        new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
                             @Override
                             public void run() {
                                 gameBoard.setText(game.room.toString());
@@ -59,6 +62,23 @@ public class GameActivity extends Activity {
                         game.turn();
                     }
                 });
+            }
+        });
+    }
+
+    public void dimScreen() {
+        new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.gameBoardHider).setVisibility(View.VISIBLE);
+            }
+        });
+    }
+    public void unDimScreen() {
+        new Handler(getApplicationContext().getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                findViewById(R.id.gameBoardHider).setVisibility(View.INVISIBLE);
             }
         });
     }

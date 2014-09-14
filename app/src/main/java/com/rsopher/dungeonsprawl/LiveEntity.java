@@ -13,7 +13,10 @@ public abstract class LiveEntity extends Entity {
     public boolean canMoveToPoint(Point point) {
         //TODO pathfinding?
         Cell cell = room.getCell(point);
-        return cell != null && cell.getContents() == null;
+        if (cell != null && cell.getContents() instanceof CanOverlap) {
+            ((CanOverlap) cell.getContents()).onOverlap();
+        }
+        return cell != null && (cell.getContents() == null || cell.getContents() instanceof CanOverlap);
     }
 
     public void moveToPoint(Point point) {
