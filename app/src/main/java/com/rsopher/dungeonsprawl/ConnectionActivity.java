@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class ConnectionActivity extends Activity {
 
@@ -21,7 +22,7 @@ public class ConnectionActivity extends Activity {
             @Override
             public void onClick(View view) {
                 //TODO use address from TextEdit
-                String address = "http://158.130.171.76:8081";
+                String address = ((TextView) findViewById(R.id.connectEdit)).getText().toString();
                 intent.putExtra("address", address);
                 startActivity(intent);
             }
